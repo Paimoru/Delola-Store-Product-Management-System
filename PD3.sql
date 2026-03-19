@@ -69,3 +69,35 @@ CREATE TABLE CUSTOMER (
     customer_province VARCHAR(255) NOT NULL
 );
 
+CREATE SHIPMENT_ITEM (
+    shipment_item_id INT PRIMARY KEY,
+    shipment_id INT, 
+    product_id INT,
+    quantity INT NOT NULL,
+    FOREIGN KEY (shipment_id) REFERENCES SHIPMENT(shipment_id),
+    FOREIGN KEY (product_id) REFERENCES PRODUCT(product_id)
+)
+
+CREATE TYPE shipment_status AS ENUM ('PENDING', 'SHIPPED', 'DELIVERED', 'CANCELLED');
+CREATE TABLE SHIPMENT (
+    shipment_id INT PRIMARY KEY,
+    supplier_id INT,
+    shipment_date DATE NOT NULL,
+    status shipment_status DEFAULT 'PENDING'
+    reference_number VARCHAR(255) NOT NULL
+    FOREIGN KEY (supplier_id) REFERENCES SUPPLIER(supplier_id)
+);
+
+CREATE TABLE SUPPLIER (
+    supplier_id INT PRIMARY KEY,
+    supplier_name VARCHAR(255) NOT NULL,
+    contact_number VARCHAR(20) NOT NULL,
+    supplier_street VARCHAR(255) NOT NULL,
+    supplier_baranagay VARCHAR(255) NOT NULL,
+    supplier_city VARCHAR(255) NOT NULL,
+    supplier_province VARCHAR(255) NOT NULL
+)
+
+
+
+
