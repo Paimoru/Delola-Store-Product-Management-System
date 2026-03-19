@@ -48,7 +48,7 @@ CREATE TABLE ORDER_ITEM (
     product_id INT,
     quantity INT NOT NULL,
     FOREIGN KEY (product_id) REFERENCES PRODUCT(product_id),
-    FOREIGN KEY (order_id) REFERENCES ORDER(order_id)
+    FOREIGN KEY (order_id) REFERENCES ORDERS(order_id)
 );
 
 -- Subtype tables for different order types
@@ -56,13 +56,13 @@ CREATE TABLE IN_STORE_ORDER (
     order_id INT PRIMARY KEY,
     release_time TIME NULL,
     claimed_by VARCHAR(255) NULL,
-    FOREIGN KEY (order_id) REFERENCES ORDER(order_id)
+    FOREIGN KEY (order_id) REFERENCES ORDERS(order_id)
 );
 
 CREATE TABLE DELIVERY_ORDER (
     order_id INT PRIMARY KEY,
     delivery_address VARCHAR(255) NOT NULL,
-    FOREIGN KEY (order_id) REFERENCES ORDER(order_id)
+    FOREIGN KEY (order_id) REFERENCES ORDERS(order_id)
 );
 
 -- Delivery table to track delivery details for delivery orders
@@ -76,7 +76,7 @@ CREATE TABLE DELIVERY (
     delivery_city VARCHAR(255) NOT NULL,
     delivery_province VARCHAR(255) NOT NULL,
     status delivery_status DEFAULT 'PENDING',
-    FOREIGN KEY (order_id) REFERENCES ORDER(order_id)
+    FOREIGN KEY (order_id) REFERENCES ORDERS(order_id)
 );
 
 CREATE TYPE shipment_status AS ENUM ('PENDING', 'SHIPPED', 'DELIVERED', 'CANCELLED');
