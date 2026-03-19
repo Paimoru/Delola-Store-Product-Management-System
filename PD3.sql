@@ -3,6 +3,26 @@ CREATE TABLE PRODUCT_CATEGORY (
     category_name VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE CUSTOMER (
+    customer_id INT PRIMARY KEY,
+    customer_name VARCHAR(255) NOT NULL,
+    contact_number VARCHAR(20) NOT NULL,
+    customer_street VARCHAR(255) NOT NULL,
+    customer_baranagay VARCHAR(255) NOT NULL,
+    customer_city VARCHAR(255) NOT NULL,
+    customer_province VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE SUPPLIER (
+    supplier_id INT PRIMARY KEY,
+    supplier_name VARCHAR(255) NOT NULL,
+    contact_number VARCHAR(20) NOT NULL,
+    supplier_street VARCHAR(255) NOT NULL,
+    supplier_baranagay VARCHAR(255) NOT NULL,
+    supplier_city VARCHAR(255) NOT NULL,
+    supplier_province VARCHAR(255) NOT NULL
+);
+
 CREATE TABLE PRODUCT (
     product_id INT PRIMARY KEY,
     product_name VARCHAR(255) NOT NULL,
@@ -11,17 +31,8 @@ CREATE TABLE PRODUCT (
     FOREIGN KEY (category_id) REFERENCES PRODUCT_CATEGORY(category_id)
 );
 
-CREATE TABLE ORDER_ITEM (
-    order_item_id INT PRIMARY KEY,
-    order_id INT,
-    product_id INT,
-    quantity INT NOT NULL,
-    FOREIGN KEY (product_id) REFERENCES PRODUCT(product_id)
-    FOREIGN KEY (order_id) REFERENCES ORDER(order_id)
-);
-
 CREATE TYPE order_status AS ENUM ('PENDING', 'SHIPPED', 'DELIVERED', 'CANCELLED');
-CREATE TABLE ORDER (
+CREATE TABLE ORDERS (
     order_id INT PRIMARY KEY,
     customer_id INT,
     order_date DATE NOT NULL,
@@ -29,6 +40,15 @@ CREATE TABLE ORDER (
     total_price DECIMAL(10, 2) NOT NULL,
     order_type VARCHAR(50) NOT NULL,
     FOREIGN KEY (customer_id) REFERENCES CUSTOMER(customer_id)
+);
+
+CREATE TABLE ORDER_ITEM (
+    order_item_id INT PRIMARY KEY,
+    order_id INT,
+    product_id INT,
+    quantity INT NOT NULL,
+    FOREIGN KEY (product_id) REFERENCES PRODUCT(product_id),
+    FOREIGN KEY (order_id) REFERENCES ORDER(order_id)
 );
 
 -- Subtype tables for different order types
@@ -59,44 +79,28 @@ CREATE TABLE DELIVERY (
     FOREIGN KEY (order_id) REFERENCES ORDER(order_id)
 );
 
-CREATE TABLE CUSTOMER (
-    customer_id INT PRIMARY KEY,
-    customer_name VARCHAR(255) NOT NULL,
-    contact_number VARCHAR(20) NOT NULL,
-    customer_street VARCHAR(255) NOT NULL,
-    customer_baranagay VARCHAR(255) NOT NULL,
-    customer_city VARCHAR(255) NOT NULL,
-    customer_province VARCHAR(255) NOT NULL
+CREATE TYPE shipment_status AS ENUM ('PENDING', 'SHIPPED', 'DELIVERED', 'CANCELLED');
+CREATE TABLE SHIPMENT (
+    shipment_id INT PRIMARY KEY,
+    supplier_id INT,
+    shipment_date DATE NOT NULL,
+    status shipment_status DEFAULT 'PENDING',
+    reference_number VARCHAR(255) NOT NULL,
+    FOREIGN KEY (supplier_id) REFERENCES SUPPLIER(supplier_id)
 );
 
-CREATE SHIPMENT_ITEM (
+CREATE TABLE SHIPMENT_ITEM (
     shipment_item_id INT PRIMARY KEY,
     shipment_id INT, 
     product_id INT,
     quantity INT NOT NULL,
     FOREIGN KEY (shipment_id) REFERENCES SHIPMENT(shipment_id),
     FOREIGN KEY (product_id) REFERENCES PRODUCT(product_id)
-)
-
-CREATE TYPE shipment_status AS ENUM ('PENDING', 'SHIPPED', 'DELIVERED', 'CANCELLED');
-CREATE TABLE SHIPMENT (
-    shipment_id INT PRIMARY KEY,
-    supplier_id INT,
-    shipment_date DATE NOT NULL,
-    status shipment_status DEFAULT 'PENDING'
-    reference_number VARCHAR(255) NOT NULL
-    FOREIGN KEY (supplier_id) REFERENCES SUPPLIER(supplier_id)
 );
 
-CREATE TABLE SUPPLIER (
-    supplier_id INT PRIMARY KEY,
-    supplier_name VARCHAR(255) NOT NULL,
-    contact_number VARCHAR(20) NOT NULL,
-    supplier_street VARCHAR(255) NOT NULL,
-    supplier_baranagay VARCHAR(255) NOT NULL,
-    supplier_city VARCHAR(255) NOT NULL,
-    supplier_province VARCHAR(255) NOT NULL
-)
+
+
+
 
 
 
