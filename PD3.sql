@@ -26,7 +26,7 @@ CREATE TABLE SUPPLIER (
 CREATE TABLE PRODUCT (
     product_id INT AUTO_INCREMENT PRIMARY KEY,
     product_name VARCHAR(255) NOT NULL,
-    price DECIMAL(10, 2) NOT NULL CHECK (price > 0),
+    price DECIMAL(10, 2) NOT NULL,
     stock_quantity INT NOT NULL DEFAULT 0,
     category_id INT,
     FOREIGN KEY (category_id) REFERENCES PRODUCT_CATEGORY(category_id)
@@ -46,7 +46,7 @@ CREATE TABLE ORDER_ITEM (
     order_item_id INT AUTO_INCREMENT PRIMARY KEY,
     order_id INT,
     product_id INT,
-    quantity INT NOT NULL CHECK (quantity > 0),
+    quantity INT NOT NULL,
     selling_price DECIMAL(10, 2) NOT NULL,
     FOREIGN KEY (product_id) REFERENCES PRODUCT(product_id),
     FOREIGN KEY (order_id) REFERENCES ORDERS(order_id)
@@ -92,7 +92,7 @@ CREATE TABLE SHIPMENT_ITEM (
     shipment_item_id INT AUTO_INCREMENT PRIMARY KEY,
     shipment_id INT,
     product_id INT,
-    quantity INT NOT NULL CHECK (quantity > 0),
+    quantity INT NOT NULL,
     unit_cost DECIMAL(10, 2) NOT NULL,
     FOREIGN KEY (shipment_id) REFERENCES SHIPMENT(shipment_id),
     FOREIGN KEY (product_id) REFERENCES PRODUCT(product_id)
