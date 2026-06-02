@@ -97,3 +97,25 @@ CREATE TABLE SHIPMENT_ITEM (
     FOREIGN KEY (shipment_id) REFERENCES SHIPMENT(shipment_id),
     FOREIGN KEY (product_id) REFERENCES PRODUCT(product_id)
 );
+
+CREATE TABLE delola_store.`users` (
+    id INT NOT NULL AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE (username)
+);
+
+-- Owners
+INSERT INTO 'delola_store'.'users' ('username', 'password')
+VALUES ('ace', 'ace123');
+
+INSERT INTO 'delola_store'.'users' ('username', 'password')
+VALUES ('miko', 'miko123');
+
+INSERT INTO 'delola_store'.'users' ('username', 'password')
+VALUES ('mel', 'mel123');
+
+INSERT INTO 'delola_store'.'users' ('username', 'password')
+VALUES ('steph', 'steph123');
